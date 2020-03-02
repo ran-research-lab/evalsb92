@@ -18,6 +18,10 @@ import getopt
 
 
 import unicodedata
+
+
+criteriosList = ['Asistencia', 'Puntualidad', 'Utilizacion Tiempo', 'Reposicion Ausencias', 'Horas de Oficina', 'Respetuoso', 'Dominio del Material', 'Cubre Temas', 'Presenta Organizado', 'Preparacion Para Clases', 'Claridad y Coherencia','Amplia Contenido Texto',  'Manifiesta Entusiasmo', 'Clase Interesante',  'Uso de Recursos',  'Estimula a Pensar', 'Fomenta Participacion',  'Ofrece Ayuda', 'Utiliza Ejemplos', 'Material Complementario', 'Anuncia con Tiempo', 'Examenes Sobre Material',  'Preguntas Claras',  'Tiempo Razonable Examen', 'Corrige a Tiempo', 'Justo Evaluando',  'Discute Examenes', 'Evaluacion Global']
+
 def strip_accents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s)
                   if unicodedata.category(c) != 'Mn')
@@ -125,11 +129,7 @@ def pandaPlot(section, allJSON, outputDir):
     
     clasif = ['Excelente', 'Bueno', 'Regular', 'Deficiente', 'No Aplica']
 
-
     tmpDict = {}
-
-
-    criteriosList = ['Asistencia', 'Puntualidad', 'Utilizacion Tiempo', 'Reposicion Ausencias', 'Horas de Oficina', 'Respetuoso', 'Dominio del Material', 'Cubre Temas', 'Presenta Organizado', 'Preparacion Para Clases', 'Claridad y Coherencia','Amplia Contenido Texto',  'Manifiesta Entusiasmo', 'Clase Interesante',  'Uso de Recursos',  'Estimula a Pensar', 'Fomenta Participacion',  'Ofrece Ayuda', 'Utiliza Ejemplos', 'Material Complementario', 'Anuncia con Tiempo', 'Examenes Sobre Material',  'Preguntas Claras',  'Tiempo Razonable Examen', 'Corrige a Tiempo', 'Justo Evaluando',  'Discute Examenes', 'Evaluacion Global']
 
     for kk in clasif:
         tmpDict[kk] = {}    
@@ -141,7 +141,7 @@ def pandaPlot(section, allJSON, outputDir):
                 tmpDict[kk][test[key]['label']] = test[key]['hist'][kk]
             questionList.append(test[key]['label'])
 
-    print("questionList", questionList)
+    # print("questionList", questionList)
 
     dic = tmpDict
     df = pd.DataFrame(dic)
@@ -204,18 +204,14 @@ def plotAgainstAvg(section, allJSON, allAvgs, outputDir):
     tmpForPandas['Promedio CCOM'] = []
     tmpQuestions = []
 
-    criterios10 = ['Preparaci  n Para Clases','Dominio del Material', 'Claridad y Coherencia', 'Manifiesta Entusiasmo', 'Presenta Organizado', 'Estimula a Pensar', 'Ofrece Ayuda', 'Examenes Sobre Material', 'Justo Evaluando', 'Fomenta Participaci  n']
+    criterios10 = ['Preparacion Para Clases','Dominio del Material', 'Claridad y Coherencia', 'Manifiesta Entusiasmo', 'Presenta Organizado', 'Estimula a Pensar', 'Ofrece Ayuda', 'Examenes Sobre Material', 'Justo Evaluando', 'Fomenta Participacion']
 
     criteriosSum = 0
 
-    criteriosList = ['Asistencia', 'Puntualidad', 'Utilizaci  n Tiempo', 'Reposici  n Ausencias', 'Horas de Oficina', 'Respetuoso', 'Dominio del Material', 'Cubre Temas', 'Presenta Organizado', 'Preparaci  n Para Clases', 'Claridad y Coherencia','Ampl  a Contenido Texto',  'Manifiesta Entusiasmo', 'Clase Interesante',  'Uso de Recursos',  'Estimula a Pensar', 'Fomenta Participaci  n',  'Ofrece Ayuda', 'Utiliza Ejemplos', 'Material Complementario', 'Anuncia con Tiempo', 'Examenes Sobre Material',  'Preguntas Claras',  'Tiempo Razonable Examen', 'Corrige a Tiempo', 'Justo Evaluando',  'Discute Examenes', 'Evaluaci  n Global']
     
     for k in tmpNow:
-#         print(k)
         val = tmpNow[k]
-#         print("VAL: ", val)
         if 'sum' in val and int(val['ctr']) != 0:
-#             print("..... Found SUM...")
             if val['label'] in criterios10:
                 print("\t", val['label'].ljust(25), "\t", round(float(val['sum'])/float(val['ctr']),3), "\tEstudiantes: ", val['ctr'])
                 criteriosSum = criteriosSum + float(val['sum'])/float(val['ctr'])
