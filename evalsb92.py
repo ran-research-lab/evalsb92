@@ -208,19 +208,19 @@ def plotAgainstAvg(section, allJSON, allAvgs, outputDir):
 
     criteriosSum = 0
 
-    
+    print("===================================================")
     for k in tmpNow:
         val = tmpNow[k]
         if 'sum' in val and int(val['ctr']) != 0:
             if val['label'] in criterios10:
-                print("\t", val['label'].ljust(25), "\t", round(float(val['sum'])/float(val['ctr']),3), "\tEstudiantes: ", val['ctr'])
+                print("%s\t%f\tEstuduiantes: %s" %(val['label'].ljust(25),round(float(val['sum'])/float(val['ctr']),3), val['ctr']  ))
                 criteriosSum = criteriosSum + float(val['sum'])/float(val['ctr'])
             if val['label'] in criteriosList:
                 tmpForPandas[section].append( float(val['sum'])/float(val['ctr']))
                 tmpForPandas['Promedio CCOM'].append(allAvgs[val['label']])
                 tmpQuestions.append(val['label'])
     print("===================================================")
-    print("Promedio de 10 criterios:\t\t", round(criteriosSum / 10.0,3))
+    print("Promedio de 10 criterios:\t%f" % round(criteriosSum / 10.0,3))
     print("")
 
 
