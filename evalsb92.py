@@ -161,9 +161,6 @@ def pandaPlot(section, allJSON, outputDir):
     # do not show for now
     # plt.show()
 
-def replaceInternational(st):
-    return st
-
 def saveComments(section, allJSON, outputDir):     
     testTmp = allJSON[section]
     comments = [testTmp[key]['values'] for key in testTmp if testTmp[key]['label'] == 'Comentarios' ]
@@ -172,8 +169,7 @@ def saveComments(section, allJSON, outputDir):
     f.write("Comentarios para %s\n\n" % section)
     f.write("==============================================================\n\n" )
     for c in comments:
-        correct = replaceInternational(c)
-        f.write("* %s\n\n" %correct)
+        f.write("* %s\n\n" % c)
 
 def computeAvg(allJSON):
     avgsDict = {}
