@@ -52,9 +52,16 @@ def gz2Text(fileName):
     mapita[179] = 'o'
     mapita[177] = 'n'
 
+    # print(type(fileContents[0]))
+    # esto es un marron para que funcione en las macs.
+    if type(fileContents[0]) is int:
+        fileContents = ''.join([chr(i) if i < 195 else '' for i in fileContents])
+        fileContents = ''.join([i if ord(i) < 128  else mapita[ord(i)] for i in fileContents])
+        return fileContents
+
+
     fileContents = ''.join([i if ord(i) < 195 else '' for i in fileContents])
     fileContents = ''.join([i if ord(i) < 128  else mapita[ord(i)] for i in fileContents])
-    # fileContents = ''.join([i if ord(i) < 128 else str(ord(i)) for i in fileContents])
     return fileContents.decode()
 
 # Dado el nombre del file, convierte de XML a json la info que nos interesa
@@ -161,6 +168,8 @@ def pandaPlot(section, allJSON, outputDir):
     # do not show for now
     # plt.show()
 
+
+
 def saveComments(section, allJSON, outputDir):     
     testTmp = allJSON[section]
     comments = [testTmp[key]['values'] for key in testTmp if testTmp[key]['label'] == 'Comentarios' ]
@@ -169,6 +178,7 @@ def saveComments(section, allJSON, outputDir):
     f.write("Comentarios para %s\n\n" % section)
     f.write("==============================================================\n\n" )
     for c in comments:
+        # correct = replaceInternational(c)
         f.write("* %s\n\n" % c)
 
 def computeAvg(allJSON):
