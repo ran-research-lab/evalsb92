@@ -22,6 +22,15 @@ import unicodedata
 
 criteriosList = ['Asistencia', 'Puntualidad', 'Utilizacion Tiempo', 'Reposicion Ausencias', 'Horas de Oficina', 'Respetuoso', 'Dominio del Material', 'Cubre Temas', 'Presenta Organizado', 'Preparacion Para Clases', 'Claridad y Coherencia','Amplia Contenido Texto',  'Manifiesta Entusiasmo', 'Clase Interesante',  'Uso de Recursos',  'Estimula a Pensar', 'Fomenta Participacion',  'Ofrece Ayuda', 'Utiliza Ejemplos', 'Material Complementario', 'Anuncia con Tiempo', 'Examenes Sobre Material',  'Preguntas Claras',  'Tiempo Razonable Examen', 'Corrige a Tiempo', 'Justo Evaluando',  'Discute Examenes', 'Evaluacion Global']
 
+# criteriosList = ['Entrega Prontuario', 'Presenta Objetivos', 'Asistencia', 'Puntualidad', 'Utilizacion Tiempo', 'Reposicion Ausencias', 'Horas de Oficina', 'Respetuoso', 'Dominio del Material', 'Cubre Temas', 'Presenta Organizado', 'Preparacion Para Clases', 'Claridad y Coherencia','Amplia Contenido Texto',  'Manifiesta Entusiasmo', 'Clase Interesante',  'Uso de Recursos',  'Estimula a Pensar', 'Fomenta Participacion',  'Ofrece Ayuda', 'Utiliza Ejemplos', 'Material Complementario', 'Anuncia con Tiempo', 'Examenes Sobre Material',  'Preguntas Claras',  'Tiempo Razonable Examen', 'Corrige a Tiempo', 'Justo Evaluando',  'Discute Examenes', 'Evaluacion Global', 'Recomienda Profesor', 'Aprovechamiento', 'Nota Parcial', 'Ano Estudio' ]
+
+
+
+
+
+
+
+
 def strip_accents(s):
    return ''.join(c for c in unicodedata.normalize('NFD', s)
                   if unicodedata.category(c) != 'Mn')
@@ -227,8 +236,8 @@ def plotAgainstAvg(section, allJSON, allAvgs, outputDir):
                 tmpForPandas[section].append( float(val['sum'])/float(val['ctr']))
                 tmpForPandas['Promedio CCOM'].append(allAvgs[val['label']])
                 tmpQuestions.append(val['label'])
-            else:
-                print("Criterium [%s] not found" % val['label'])
+            # else:
+            #     print("Criterium [%s] not found" % val['label'])
 
     print("===================================================")
     print("Promedio de 10 criterios:\t%f" % round(criteriosSum / 10.0,3))
