@@ -159,14 +159,14 @@ def pandaPlot(section, allJSON, outputDir):
 
 
 
-    questionOrder = [indexList.index(i) for i in criteriosList] #questionList]
+    questionOrder = [indexList.index(i) for i in criteriosList] # questionsList
+
+
 
     f = df.iloc[questionOrder,[2,0,4,1,3]].plot(kind="bar", stacked=True, figsize = (14,5), title=section)
     f = f.get_figure()
     f.savefig( outputDir + '/' + section + '.pdf', pad_inches=1,bbox_inches="tight")
     
-    # do not show for now
-    # plt.show()
 
 
 
@@ -215,34 +215,38 @@ def plotAgainstAvg(section, allJSON, allAvgs, outputDir):
     criteriosSum = 0
 
     print("===================================================")
+        
     for k in tmpNow:
         val = tmpNow[k]
         if 'sum' in val and int(val['ctr']) != 0:
             if val['label'] in criterios10:
-                print("%s\t%f\tEstuduiantes: %s" %(val['label'].ljust(25),round(float(val['sum'])/float(val['ctr']),3), val['ctr']  ))
+                print("%s\t%f\tEstudiantes: %s" %(val['label'].ljust(25),round(float(val['sum'])/float(val['ctr']),3), val['ctr']  ))
                 criteriosSum = criteriosSum + float(val['sum'])/float(val['ctr'])
+            
             if val['label'] in criteriosList:
                 tmpForPandas[section].append( float(val['sum'])/float(val['ctr']))
                 tmpForPandas['Promedio CCOM'].append(allAvgs[val['label']])
                 tmpQuestions.append(val['label'])
+            else:
+                print("Criterium [%s] not found" % val['label'])
+
     print("===================================================")
     print("Promedio de 10 criterios:\t%f" % round(criteriosSum / 10.0,3))
     print("")
 
 
-    # print("tmpQuestions",tmpQuestions)
-    # print(set(tmpQuestions).difference(set(criteriosList)))
-
     # Esto es un marron por si ningun estudiante contesto cierta pregunta
     diff = set(criteriosList).difference(set(tmpQuestions))
-    tmpList = criteriosList
+    tmpList = [i for i in criteriosList]
     if len(diff) != 0:
         for e in diff:
             tmpList.remove(e)
-
+   
+    questionOrder = [tmpQuestions.index(i) for i in tmpList]
     
-    pa = pd.DataFrame(tmpForPandas, index=tmpList)
-    f = pa.plot(kind="bar",figsize = (11,5), title=section, alpha=0.55)
+    pa = pd.DataFrame(tmpForPandas, index=tmpQuestions)  #tmpList
+
+    f = pa.iloc[questionOrder].plot(kind="bar",figsize = (11,5), title=section, alpha=0.55)
     plt.legend(loc='lower left',framealpha = 1)
     f = f.get_figure()
     f.savefig( outputDir + '/' + section + 'vsAll.pdf', pad_inches=1,bbox_inches="tight")
